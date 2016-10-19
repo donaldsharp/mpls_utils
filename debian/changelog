@@ -1,0 +1,12 @@
+mpls-utils (0.2) unstable; urgency=low
+
+  * Cumulus Linux 2.6
+
+ -- Donald Sharp <sharpd@cumulusnetworks.com>  Fri, 20 Feb 2015 13:10:35 -0700
+
+mpls-utils (0.1)  UNRELEASED; urgency=low
+
+  * Initial release
+
+ -- Donald Sharp <sharpd@cumulusnetworks.com>  Fri, 20 Feb 2015 10:01:35 -0700
+

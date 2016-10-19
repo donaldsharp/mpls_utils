@@ -1,0 +1,121 @@
+#! /bin/bash
+### BEGIN INIT INFO
+# Provides:          mpls-utils
+# Required-Start:    networking
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Cumulus Networks mpls-utils
+# Description:       Debian init script for mpls-daemon
+### END INIT INFO
+
+# Author: Donald Sharp <sharpd@cumulusnetworks.com>
+#
+# Please remove the "Author" lines above and replace them
+# with your own name if you copy and modify this script.
+
+# Do NOT "set -e"
+
+# PATH should only include /usr/* if it runs after the mountnfs.sh script
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/usr/cumulus/bin
+DESC="MPLS daemon to respond to lsp-ping, lsp-traceroute"
+PACKAGE=mpls-utils
+NAME=mpls-daemon
+DAEMON=/usr/sbin/$NAME
+DAEMON_ARGS="-d -f /var/log/mpls-daemon.log"
+PIDFILE=/var/run/$NAME.pid
+READYFILE=/var/run/$NAME.ready
+SCRIPTNAME=/etc/init.d/$NAME
+LOCKDIR=/var/run/mpls-daemon.init.lock
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
+
+# Read configuration variable file if it is present
+[ -r /etc/default/$PACKAGE ] && . /etc/default/$PACKAGE
+
+# Load the VERBOSE setting and other rcS variables
+. /lib/init/vars.sh
+
+# Define LSB log_* functions.
+# Depend on lsb-base (>= 3.2-14) to ensure that this file is present
+# and status_of_proc is working.
+. /lib/lsb/init-functions
+
+acquire_lock()
+{
+    if mkdir "$LOCKDIR" > /dev/null 2>&1
+    then
+
+	[ "$VERBOSE" != no ] && log_daemon_msg "successfully acquired lock" && log_end_msg
+	# remove the lock when the script finishes or receives a signal
+	trap 'rm -rf "$LOCKDIR"' 0
+    else
+	log_daemon_msg "cannot acquire lock, exiting"
+	log_end_msg 1
+	exit 2
+    fi
+}
+
+#
+# Function that starts the daemon/service
+#
+do_start()
+{
+	if [ -z "${MPLS_DAEMON_ON}" ] || [ "${MPLS_DAEMON_ON^^}" = "NO" ]; then
+		echo ""
+		echo "$NAME Explicity Turned off by control file"
+		return 0
+	fi
+
+        acquire_lock
+
+	# Return
+	#   0 if daemon has been started
+	#   1 if daemon was already running
+	#   2 if daemon could not be started
+	start-stop-daemon --start --quiet --exec $DAEMON --test > /dev/null \
+		|| return 1
+	start-stop-daemon --start --quiet --exec $DAEMON -- \
+		$DAEMON_ARGS \
+		|| return 2
+
+	return 0
+}
+
+#
+# Function that stops the daemon/service
+#
+do_stop()
+{
+    start-stop-daemon --stop --quiet --oknodo --exec $DAEMON || return 2
+}
+
+case "$1" in
+  start)
+	log_daemon_msg "Starting $DESC" "$NAME"
+	do_start
+	;;
+  stop)
+	[ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
+	do_stop
+	;;
+  status)
+       status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
+       ;;
+  restart|force-reload)
+	#
+	# If the "reload" option is implemented then remove the
+	# 'force-reload' alias
+	#
+	log_daemon_msg "Restarting $DESC" "$NAME"
+	do_stop
+ 	sleep 2
+	do_start
+	;;
+  *)
+	#echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload}" >&2
+	echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+	exit 3
+	;;
+esac

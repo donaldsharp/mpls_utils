@@ -1,0 +1,12 @@
+Source: mpls-utils
+Maintainer: Donald Sharp <cumulusnetworks.com>
+Section: net
+Priority: optional
+Build-Depends: python-all (>= 2.6.6-3), debhelper (>= 7)
+Standards-Version: 3.9.3
+
+Package: mpls-utils
+Architecture: any
+Depends: ${misc:Depends} 
+Description: MPLS utilities package containing such tools as lsp-ping, lsp-trace etc.
+

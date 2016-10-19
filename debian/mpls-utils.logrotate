@@ -1,0 +1,14 @@
+/var/log/mpls-daemon.log {
+        size 500k
+        sharedscripts
+        missingok
+        compress
+        rotate 14
+        nocreate
+
+        postrotate
+                if [ -e /var/run/mpls-daemon.pid ] ; then
+                        kill -HUP `cat /var/run/mpls-daemon.pid`
+                fi
+        endscript
+}
