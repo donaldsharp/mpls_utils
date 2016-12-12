@@ -1,0 +1,4 @@
+1) Implement .service file to get working properly inside of systemd
+2) Add BPF to mpls-daemon to limit packets being looked at.
+3) Add watchdog to mpls-daemon to tell systemd we are still running
+4) Add configure build system?
