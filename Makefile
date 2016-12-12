@@ -26,6 +26,10 @@ mpls_daemon.o: mpls_daemon.c
 mpls-daemon: mpls_daemon.o mpls_label.o mpls_packet.o mpls_network.o mpls_util.o
 	gcc -g -o mpls-daemon mpls_daemon.o mpls_label.o mpls_packet.o mpls_network.o mpls_util.o
 
+install: mpls-daemon mpls-ping
+	cp mpls-daemon $DESTDIR
+	cp mpls-ping $DESTDIR
+
 clean:
 	rm -f *.o
 	rm -f mpls-daemon

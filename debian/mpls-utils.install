@@ -1,4 +1,4 @@
-../../mpls-daemon				usr/sbin
-../../mpls-ping                               usr/bin
+mpls-daemon				usr/sbin
+mpls-ping                               usr/bin
 #rootfs/usr/share/monit/scripts/*	usr/share/monit/scripts
-debian/mpls-utils-monit.rc		etc/monit/monitrc.d/
+#debian/mpls-utils-monit.rc		etc/monit/monitrc.d/
