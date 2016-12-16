@@ -1,0 +1,15 @@
+[Unit]
+Description=MPLS utilities
+After=syslog.service networking.service
+
+[Service]
+EnvironmentFile=/etc/default/mpls-utils
+Type=forking
+StartLimitInterval=3m
+StartLimitBurst=3
+TimeoutSec=1m
+RestartSec=5
+Restart=always
+ExecStart=/usr/sbin/mpls-daemon -d -f /var/log/mpls-daemon.log
+[Install]
+WantedBy=network-online.target

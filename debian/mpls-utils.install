@@ -1,4 +1,5 @@
 mpls-daemon				usr/sbin
 mpls-ping                               usr/bin
+debian/mpls-utils.service   lib/systemd/system
 #rootfs/usr/share/monit/scripts/*	usr/share/monit/scripts
 #debian/mpls-utils-monit.rc		etc/monit/monitrc.d/

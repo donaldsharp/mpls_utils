@@ -1,8 +1,0 @@
-check process mpls-daemon
-      matching "mpls-daemon"      
-      start program = "/etc/init.d/mpls-utils start" with timeout 120 seconds
-      stop program = "/etc/init.d/mpls-utils stop"
-      if cpu > 80% for 16 cycles then alert
-      if totalmem > 400.0 MB for 40 cycles then alert
-      if 3 restarts within 10 cycles then timeout
-

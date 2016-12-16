@@ -1,0 +1,10 @@
+*.swp
+*.o
+cscope.*
+ESTDIR
+debian/mpls-utils/
+debian/mpls-utils.debhelper.log
+debian/mpls-utils.substvars
+debian/files
+mpls-daemon
+mpls-ping
