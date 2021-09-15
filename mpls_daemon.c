@@ -251,7 +251,7 @@ mpls_daemon_create_sockets (void)
       }
 
       memset(&ifr, 0, sizeof(ifr));
-      snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), tmp->ifa_name);
+      snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), "%s", tmp->ifa_name);
 
       if ((ioctl(sockets[count].socket, SIOCGIFINDEX, &ifr)) == -1) {
 	DEBUG_DETAIL("Interface %s\n", tmp->ifa_name);

@@ -405,7 +405,8 @@ mpls_ping_handle_ping (packet_peeker *packet, uint32_t ifindex,
 }
 
 static void
-mpls_ping_send (address *addr, int pkt_count, char *interface, int traceroute)
+mpls_ping_send (address *addr, int pkt_count, const char *interface,
+		int traceroute)
 {
   address daddr;
   route   route;
@@ -518,6 +519,7 @@ mpls_ping_print_help (void)
   printf("\t-V = More Verbose debugging information is printed\n");
   printf("\t-h = This option\n");
   printf("\t-t = Traceroute to the specified address\n");
+  printf("\t-I <name> = Specific interface name to use\n");
   printf("\t-c <1-MAXINT> = Number of packets to send in a ping operation\n");
   printf("\n");
   printf("\t<Address> is either an IPv4 or IPv6 address to send towards\n");
